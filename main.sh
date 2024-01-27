@@ -82,6 +82,7 @@ function is_root() {
 
 # Buat direktori xray
 print_install "Membuat direktori xray"
+rm -rf /etc/xray
 mkdir -p /etc/xray
 rm -fr /root/.isp
 rm -fr /root/.city
@@ -141,8 +142,6 @@ else
 fi
 }
 
-# GEO PROJECT
-clear
 function nginx_install() {
     # // Checking System
     if [[ $(cat /etc/os-release | grep -w ID | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/ID//g') == "ubuntu" ]]; then
@@ -161,7 +160,6 @@ function nginx_install() {
 # Update and remove packages
 function base_package() {
     clear
-    ########
     print_install "Menginstall Packet Yang Dibutuhkan"
     apt install zip pwgen openssl netcat socat cron bash-completion -y
     apt install figlet -y
@@ -177,7 +175,7 @@ function base_package() {
     apt install ntpdate -y
     ntpdate pool.ntp.org
     apt install sudo -y
-    apt install -y ruby wondershaper
+    apt install -y ruby wondershaper at
     gem install lolcat
     sudo apt-get clean all
     sudo apt-get autoremove -y
@@ -259,7 +257,7 @@ TEXT="
 <code>────────────────────</code>
 <b>⛈️ NOTIFICATION INSTALL ⛈️</b>
 <code>────────────────────</code>
-<code>User    :</code><code>$username</code>
+<code>User ID :</code><code>$username</code>
 <code>Domain  :</code><code>$domain</code>
 <code>ISP     :</code><code>$(cat /root/.isp)</code>
 <code>CITY    :</code><code>$(cat /root/.city)</code>
@@ -476,7 +474,7 @@ clear
 print_install "Memasang Service Limit IP & Quota"
 wget -q https://raw.githubusercontent.com/bayuvpn/v3/main/config/fv-tunnel && chmod +x fv-tunnel && ./fv-tunnel
 
-# // Installing UDP Mini
+rm -rf /usr/local/kyt
 mkdir -p /usr/local/kyt/
 wget -q -O /usr/local/kyt/udp-mini "${REPO}files/udp-mini"
 chmod +x /usr/local/kyt/udp-mini
